@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-08 18:57:46" itemprop="dateModified" datetime="2021-01-08T18:57:46+08:00">2021-01-08</time>
+                <time title="Modified: 2021-01-08 19:25:25" itemprop="dateModified" datetime="2021-01-08T19:25:25+08:00">2021-01-08</time>
               </span>
 
           
@@ -191,32 +191,32 @@
 
       
           <h4 id="P2-CUDA编程入门01-GPU硬件架构综述"><a href="#P2-CUDA编程入门01-GPU硬件架构综述" class="headerlink" title="P2 CUDA编程入门01-GPU硬件架构综述"></a>P2 CUDA编程入门01-GPU硬件架构综述</h4><!-- Images -->
-<p><img src="/home/ryonnew/Pictures/Selection_012.png" alt="pic1"></p>
-<h5 id="bank的访问冲突"><a href="#bank的访问冲突" class="headerlink" title="bank的访问冲突"></a>bank的访问冲突</h5><p><img src="/home/ryonnew/Pictures/Selection_013.png" alt="pic2"><br><img src="/home/ryonnew/Pictures/Selection_014.png" alt="pic3"><br><strong>冲突的情况</strong><br><img src="/home/ryonnew/Pictures/Selection_015.png" alt="pic4"></p>
-<h5 id="规约的一个有效的算法"><a href="#规约的一个有效的算法" class="headerlink" title="规约的一个有效的算法"></a>规约的一个有效的算法</h5><p><img src="/home/ryonnew/Pictures/Selection_016.png" alt="pic5"></p>
-<h4 id="p3-CUDA编程模型"><a href="#p3-CUDA编程模型" class="headerlink" title="p3 CUDA编程模型"></a>p3 CUDA编程模型</h4><p><img src="/home/ryonnew/Pictures/Selection_017.png" alt="pic6"></p>
-<h5 id="CUDA程序执行流程"><a href="#CUDA程序执行流程" class="headerlink" title="CUDA程序执行流程"></a>CUDA程序执行流程</h5><p><img src="/home/ryonnew/Pictures/Selection_018.png" alt="pic7"></p>
-<h5 id="Block和grid的关系"><a href="#Block和grid的关系" class="headerlink" title="Block和grid的关系"></a>Block和grid的关系</h5><p><img src="/home/ryonnew/Pictures/Selection_019.png" alt="pic8"></p>
-<h5 id="CUDA程序层次结构"><a href="#CUDA程序层次结构" class="headerlink" title="CUDA程序层次结构"></a>CUDA程序层次结构</h5><p><img src="/home/ryonnew/Pictures/Selection_020.png" alt="pic9"></p>
-<h5 id="CUDA-kernel函数的grid-block调用情况"><a href="#CUDA-kernel函数的grid-block调用情况" class="headerlink" title="CUDA kernel函数的grid, block调用情况"></a>CUDA kernel函数的grid, block调用情况</h5><p><img src="/home/ryonnew/Pictures/Selection_021.png" alt="pic10"></p>
+<p><img src="Selection_012.png" alt="pic1"></p>
+<h5 id="bank的访问冲突"><a href="#bank的访问冲突" class="headerlink" title="bank的访问冲突"></a>bank的访问冲突</h5><p><img src="Selection_013.png" alt="pic2"><br><img src="Selection_014.png" alt="pic3"><br><strong>冲突的情况</strong><br><img src="Selection_015.png" alt="pic4"></p>
+<h5 id="规约的一个有效的算法"><a href="#规约的一个有效的算法" class="headerlink" title="规约的一个有效的算法"></a>规约的一个有效的算法</h5><p><img src="Selection_016.png" alt="pic5"></p>
+<h4 id="p3-CUDA编程模型"><a href="#p3-CUDA编程模型" class="headerlink" title="p3 CUDA编程模型"></a>p3 CUDA编程模型</h4><p><img src="Selection_017.png" alt="pic6"></p>
+<h5 id="CUDA程序执行流程"><a href="#CUDA程序执行流程" class="headerlink" title="CUDA程序执行流程"></a>CUDA程序执行流程</h5><p><img src="Selection_018.png" alt="pic7"></p>
+<h5 id="Block和grid的关系"><a href="#Block和grid的关系" class="headerlink" title="Block和grid的关系"></a>Block和grid的关系</h5><p><img src="Selection_019.png" alt="pic8"></p>
+<h5 id="CUDA程序层次结构"><a href="#CUDA程序层次结构" class="headerlink" title="CUDA程序层次结构"></a>CUDA程序层次结构</h5><p><img src="Selection_020.png" alt="pic9"></p>
+<h5 id="CUDA-kernel函数的grid-block调用情况"><a href="#CUDA-kernel函数的grid-block调用情况" class="headerlink" title="CUDA kernel函数的grid, block调用情况"></a>CUDA kernel函数的grid, block调用情况</h5><p><img src="Selection_021.png" alt="pic10"></p>
 <blockquote>
 <p>注意用__global__定义的kernel是异步的：调用这个函数cpu就走了，不管GPU是否算完，不会等待GPU完成，而GPU会一个个执行kernel函数</p>
 </blockquote>
-<h5 id="CUDA内置变量"><a href="#CUDA内置变量" class="headerlink" title="CUDA内置变量"></a>CUDA内置变量</h5><p><img src="/home/ryonnew/Pictures/Selection_022.png" alt="pic10"></p>
+<h5 id="CUDA内置变量"><a href="#CUDA内置变量" class="headerlink" title="CUDA内置变量"></a>CUDA内置变量</h5><p><img src="Selection_022.png" alt="pic10"></p>
 <h4 id="P4向量加法"><a href="#P4向量加法" class="headerlink" title="P4向量加法"></a>P4向量加法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># GPU申请内存的函数：</span><br><span class="line">cudaMalloc((void **)&amp;dx, nbytes) &#x2F;&#x2F;你首先得给我一个pointer to pointer of sth, 然后你要申请多少内存空间</span><br></pre></td></tr></table></figure>
-<p><img src="/home/ryonnew/Pictures/Selection_023.png" alt="pic11"></p>
-<h4 id="P5Grid-Block-Warp-Thread"><a href="#P5Grid-Block-Warp-Thread" class="headerlink" title="P5Grid-Block-Warp-Thread"></a>P5Grid-Block-Warp-Thread</h4><h5 id="CUDA程序层次结构-1"><a href="#CUDA程序层次结构-1" class="headerlink" title="CUDA程序层次结构"></a>CUDA程序层次结构</h5><p><img src="/home/ryonnew/Pictures/Selection_024.png" alt="picture"></p>
-<p><img src="/home/ryonnew/Pictures/Selection_025.png" alt="picture"></p>
-<h4 id="P6GPU内存介绍"><a href="#P6GPU内存介绍" class="headerlink" title="P6GPU内存介绍"></a>P6GPU内存介绍</h4><p>左边是Device的图<br>右边是单个Multi-processor的图<br><img src="/home/ryonnew/Pictures/Selection_026.png" alt="picture"></p>
-<p>GPU内存类型<br><img src="/home/ryonnew/Pictures/Selection_027.png" alt="picture"></p>
-<h4 id="P7内存如何管理"><a href="#P7内存如何管理" class="headerlink" title="P7内存如何管理"></a>P7内存如何管理</h4><p>内存管理，全局内存是我的数据主要存放的地方，共享内存就是block内线程数据共享和同步<br><img src="/home/ryonnew/Pictures/Selection_028.png" alt="picture"></p>
-<h5 id="CPU内存"><a href="#CPU内存" class="headerlink" title="CPU内存"></a>CPU内存</h5><p>栈的内存有限几M,堆的话看电脑32G,64G<br><img src="/home/ryonnew/Pictures/Selection_029.png" alt="picture"></p>
-<h5 id="GPU内存"><a href="#GPU内存" class="headerlink" title="GPU内存"></a>GPU内存</h5><p><img src="/home/ryonnew/Pictures/Selection_030.png" alt="picture"></p>
-<h5 id="GPU全局内存分配释放"><a href="#GPU全局内存分配释放" class="headerlink" title="GPU全局内存分配释放"></a>GPU全局内存分配释放</h5><p><img src="/home/ryonnew/Pictures/Selection_031.png" alt="picture"></p>
-<h5 id="统一-unified-内存分配释放"><a href="#统一-unified-内存分配释放" class="headerlink" title="统一(unified)内存分配释放"></a>统一(unified)内存分配释放</h5><p>避免GPU和CPU数据传输，因为都可以访问<br><img src="/home/ryonnew/Pictures/Selection_032.png" alt="picture"></p>
-<p>同步拷贝： src全部拷贝给dst，这个函数才会终止执行下一个函数<br><img src="/home/ryonnew/Pictures/Selection_033.png" alt="picture"></p>
-<p>异步拷贝： 只要启动这个函数就不管了(留着GPU与CPU自己完成)，就执行这个函数后面的语句，异步拷贝有一个缺点：就是你不知道是否拷贝完成，你就使用他有可能使用的是以前的旧数据<br><img src="/home/ryonnew/Pictures/Selection_034.png" alt="picture"></p>
-<h5 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h5><p><img src="/home/ryonnew/Pictures/Selection_035.png" alt="picture"><br>常用的使用共享内存的两种方式<br><img src="/home/ryonnew/Pictures/Selection_036.png" alt="picture"></p>
+<p><img src="Selection_023.png" alt="pic11"></p>
+<h4 id="P5Grid-Block-Warp-Thread"><a href="#P5Grid-Block-Warp-Thread" class="headerlink" title="P5Grid-Block-Warp-Thread"></a>P5Grid-Block-Warp-Thread</h4><h5 id="CUDA程序层次结构-1"><a href="#CUDA程序层次结构-1" class="headerlink" title="CUDA程序层次结构"></a>CUDA程序层次结构</h5><p><img src="Selection_024.png" alt="picture"></p>
+<p><img src="Selection_025.png" alt="picture"></p>
+<h4 id="P6GPU内存介绍"><a href="#P6GPU内存介绍" class="headerlink" title="P6GPU内存介绍"></a>P6GPU内存介绍</h4><p>左边是Device的图<br>右边是单个Multi-processor的图<br><img src="Selection_026.png" alt="picture"></p>
+<p>GPU内存类型<br><img src="Selection_027.png" alt="picture"></p>
+<h4 id="P7内存如何管理"><a href="#P7内存如何管理" class="headerlink" title="P7内存如何管理"></a>P7内存如何管理</h4><p>内存管理，全局内存是我的数据主要存放的地方，共享内存就是block内线程数据共享和同步<br><img src="Selection_028.png" alt="picture"></p>
+<h5 id="CPU内存"><a href="#CPU内存" class="headerlink" title="CPU内存"></a>CPU内存</h5><p>栈的内存有限几M,堆的话看电脑32G,64G<br><img src="Selection_029.png" alt="picture"></p>
+<h5 id="GPU内存"><a href="#GPU内存" class="headerlink" title="GPU内存"></a>GPU内存</h5><p><img src="Selection_030.png" alt="picture"></p>
+<h5 id="GPU全局内存分配释放"><a href="#GPU全局内存分配释放" class="headerlink" title="GPU全局内存分配释放"></a>GPU全局内存分配释放</h5><p><img src="Selection_031.png" alt="picture"></p>
+<h5 id="统一-unified-内存分配释放"><a href="#统一-unified-内存分配释放" class="headerlink" title="统一(unified)内存分配释放"></a>统一(unified)内存分配释放</h5><p>避免GPU和CPU数据传输，因为都可以访问<br><img src="Selection_032.png" alt="picture"></p>
+<p>同步拷贝： src全部拷贝给dst，这个函数才会终止执行下一个函数<br><img src="Selection_033.png" alt="picture"></p>
+<p>异步拷贝： 只要启动这个函数就不管了(留着GPU与CPU自己完成)，就执行这个函数后面的语句，异步拷贝有一个缺点：就是你不知道是否拷贝完成，你就使用他有可能使用的是以前的旧数据<br><img src="Selection_034.png" alt="picture"></p>
+<h5 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h5><p><img src="Selection_035.png" alt="picture"><br>常用的使用共享内存的两种方式<br><img src="Selection_036.png" alt="picture"></p>
 <h4 id="P8内存管理，代码示例"><a href="#P8内存管理，代码示例" class="headerlink" title="P8内存管理，代码示例"></a>P8内存管理，代码示例</h4><p>申请内存(cudaMalloc/<em>GPU</em>/, malloc或者cudaMallocHost/<em>CPU</em>/)-&gt;内存拷贝(cudaMemcpy)-&gt;调用核函数 &lt;&lt;&lt;blockIdx,threadIdx&gt;&gt;&gt; -&gt;内存拷贝-&gt;释放内存</p>
 <h4 id="P9CUDA程序执行与硬件映射"><a href="#P9CUDA程序执行与硬件映射" class="headerlink" title="P9CUDA程序执行与硬件映射"></a>P9CUDA程序执行与硬件映射</h4><p>grid-&gt;Block-&gt;Thread 对应 Device-&gt;SM-&gt;CUDA Core</p>
 <h4 id="P10什么是规约算法"><a href="#P10什么是规约算法" class="headerlink" title="P10什么是规约算法"></a>P10什么是规约算法</h4><p>CUDA不支持global sync,因为全局同步可能造成：</p>
@@ -224,9 +224,9 @@
 <li>有block闲置</li>
 <li>deadlock<br>solution: Decompose into multiple kernels 设计规约算法</li>
 </ol>
-<h4 id="P11并行规约算法-二叉树算法"><a href="#P11并行规约算法-二叉树算法" class="headerlink" title="P11并行规约算法-二叉树算法"></a>P11并行规约算法-二叉树算法</h4><h4 id="P12并行规约算法-改进warp-divergence"><a href="#P12并行规约算法-改进warp-divergence" class="headerlink" title="P12并行规约算法-改进warp divergence"></a>P12并行规约算法-改进warp divergence</h4><h4 id="P13并行规约算法-改进共享内存访问，消除冲突"><a href="#P13并行规约算法-改进共享内存访问，消除冲突" class="headerlink" title="P13并行规约算法-改进共享内存访问，消除冲突"></a>P13并行规约算法-改进共享内存访问，消除冲突</h4><h4 id="P14并行规约算法-改进全局内存访问"><a href="#P14并行规约算法-改进全局内存访问" class="headerlink" title="P14并行规约算法-改进全局内存访问"></a>P14并行规约算法-改进全局内存访问</h4><h4 id="P17并行规约算法-成功优化的关键"><a href="#P17并行规约算法-成功优化的关键" class="headerlink" title="P17并行规约算法-成功优化的关键"></a>P17并行规约算法-成功优化的关键</h4><p>voliate关键字<br><img src="/home/ryonnew/Pictures/Selection_037.png" alt="picture"></p>
-<h4 id="P18完整并行规约算法-三阶段算法与完整代码"><a href="#P18完整并行规约算法-三阶段算法与完整代码" class="headerlink" title="P18完整并行规约算法-三阶段算法与完整代码"></a>P18完整并行规约算法-三阶段算法与完整代码</h4><p><img src="/home/ryonnew/Pictures/Selection_038.png" alt="picture"></p>
-<h4 id="P18完整并行规约算法应用-内积"><a href="#P18完整并行规约算法应用-内积" class="headerlink" title="P18完整并行规约算法应用-内积"></a>P18完整并行规约算法应用-内积</h4><p><img src="/home/ryonnew/Pictures/Selection_039.png" alt="picture"></p>
+<h4 id="P11并行规约算法-二叉树算法"><a href="#P11并行规约算法-二叉树算法" class="headerlink" title="P11并行规约算法-二叉树算法"></a>P11并行规约算法-二叉树算法</h4><h4 id="P12并行规约算法-改进warp-divergence"><a href="#P12并行规约算法-改进warp-divergence" class="headerlink" title="P12并行规约算法-改进warp divergence"></a>P12并行规约算法-改进warp divergence</h4><h4 id="P13并行规约算法-改进共享内存访问，消除冲突"><a href="#P13并行规约算法-改进共享内存访问，消除冲突" class="headerlink" title="P13并行规约算法-改进共享内存访问，消除冲突"></a>P13并行规约算法-改进共享内存访问，消除冲突</h4><h4 id="P14并行规约算法-改进全局内存访问"><a href="#P14并行规约算法-改进全局内存访问" class="headerlink" title="P14并行规约算法-改进全局内存访问"></a>P14并行规约算法-改进全局内存访问</h4><h4 id="P17并行规约算法-成功优化的关键"><a href="#P17并行规约算法-成功优化的关键" class="headerlink" title="P17并行规约算法-成功优化的关键"></a>P17并行规约算法-成功优化的关键</h4><p>voliate关键字<br><img src="Selection_037.png" alt="picture"></p>
+<h4 id="P18完整并行规约算法-三阶段算法与完整代码"><a href="#P18完整并行规约算法-三阶段算法与完整代码" class="headerlink" title="P18完整并行规约算法-三阶段算法与完整代码"></a>P18完整并行规约算法-三阶段算法与完整代码</h4><p><img src="Selection_038.png" alt="picture"></p>
+<h4 id="P18完整并行规约算法应用-内积"><a href="#P18完整并行规约算法应用-内积" class="headerlink" title="P18完整并行规约算法应用-内积"></a>P18完整并行规约算法应用-内积</h4><p><img src="Selection_039.png" alt="picture"></p>
 
       
     </div>
