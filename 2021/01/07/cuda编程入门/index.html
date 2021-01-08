@@ -20,28 +20,61 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="P2 CUDA编程入门01-GPU硬件架构综述  bank的访问冲突冲突的情况 规约的一个有效的算法 p3 CUDA编程模型 CUDA程序执行流程 Block和grid的关系 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况  注意用__global__定义的kernel是异步的：调用这个函数cpu就走了，不管GPU是否算完，不会等待GPU完成，而GPU会一个个执行">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/2021/01/07/cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="P2 CUDA编程入门01-GPU硬件架构综述  bank的访问冲突冲突的情况 规约的一个有效的算法 p3 CUDA编程模型 CUDA程序执行流程 Block和grid的关系 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况  注意用__global__定义的kernel是异步的：调用这个函数cpu就走了，不管GPU是否算完，不会等待GPU完成，而GPU会一个个执行">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_012.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_013.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_014.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_015.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_016.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_017.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_018.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_019.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_020.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_021.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_022.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_023.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_024.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_025.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_026.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_027.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_028.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_029.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_030.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_031.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_032.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_033.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_034.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_035.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_036.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_037.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_038.png">
+<meta property="og:image" content="http://example.com/home/ryonnew/Pictures/Selection_039.png">
+<meta property="article:published_time" content="2021-01-07T11:51:50.822Z">
+<meta property="article:modified_time" content="2021-01-08T10:57:46.460Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/home/ryonnew/Pictures/Selection_012.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/01/07/cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Hexo</title>
+  <title> | Hexo</title>
   
 
 
@@ -139,9 +172,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -157,10 +191,9 @@
       <meta itemprop="name" content="Hexo">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/07/cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">Untitled</a>
-        </h2>
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -190,7 +223,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="P2-CUDA编程入门01-GPU硬件架构综述"><a href="#P2-CUDA编程入门01-GPU硬件架构综述" class="headerlink" title="P2 CUDA编程入门01-GPU硬件架构综述"></a>P2 CUDA编程入门01-GPU硬件架构综述</h4><!-- Images -->
+        <h4 id="P2-CUDA编程入门01-GPU硬件架构综述"><a href="#P2-CUDA编程入门01-GPU硬件架构综述" class="headerlink" title="P2 CUDA编程入门01-GPU硬件架构综述"></a>P2 CUDA编程入门01-GPU硬件架构综述</h4><!-- Images -->
 <p><img src="/home/ryonnew/Pictures/Selection_012.png" alt="pic1"></p>
 <h5 id="bank的访问冲突"><a href="#bank的访问冲突" class="headerlink" title="bank的访问冲突"></a>bank的访问冲突</h5><p><img src="/home/ryonnew/Pictures/Selection_013.png" alt="pic2"><br><img src="/home/ryonnew/Pictures/Selection_014.png" alt="pic3"><br><strong>冲突的情况</strong><br><img src="/home/ryonnew/Pictures/Selection_015.png" alt="pic4"></p>
 <h5 id="规约的一个有效的算法"><a href="#规约的一个有效的算法" class="headerlink" title="规约的一个有效的算法"></a>规约的一个有效的算法</h5><p><img src="/home/ryonnew/Pictures/Selection_016.png" alt="pic5"></p>
@@ -228,147 +261,30 @@
 <h4 id="P18完整并行规约算法-三阶段算法与完整代码"><a href="#P18完整并行规约算法-三阶段算法与完整代码" class="headerlink" title="P18完整并行规约算法-三阶段算法与完整代码"></a>P18完整并行规约算法-三阶段算法与完整代码</h4><p><img src="/home/ryonnew/Pictures/Selection_038.png" alt="picture"></p>
 <h4 id="P18完整并行规约算法应用-内积"><a href="#P18完整并行规约算法应用-内积" class="headerlink" title="P18完整并行规约算法应用-内积"></a>P18完整并行规约算法应用-内积</h4><p><img src="/home/ryonnew/Pictures/Selection_039.png" alt="picture"></p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/06/github+hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/06/github+hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/" class="post-title-link" itemprop="url">github+hexo搭建个人主页</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-01-06 15:13:14 / Modified: 16:01:35" itemprop="dateCreated datePublished" datetime="2021-01-06T15:13:14+08:00">2021-01-06</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Node-js安装"><a href="#Node-js安装" class="headerlink" title="Node.js安装"></a>Node.js安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用官网的安装指导</span></span><br><span class="line"><span class="comment"># sudo apt install nodejs # 安装版本8.10后面装hexo一直报错</span></span><br><span class="line"><span class="comment"># 安装Node.js v12.x</span></span><br><span class="line">https://github.com/nodesource/distributions/blob/master/README.md<span class="comment">#debinstall</span></span><br></pre></td></tr></table></figure>
-<h4 id="hexo安装见blili"><a href="#hexo安装见blili" class="headerlink" title="hexo安装见blili"></a>hexo安装见blili</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">https://www.bilibili.com/video/BV1Yb411a7ty/?spm_id_from=333.788.videocard.1 <span class="comment"># 参考视频</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#主要命令</span></span><br><span class="line">node -v	<span class="comment">#查看node版本</span></span><br><span class="line">npm -v	<span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org	<span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v	<span class="comment">#查看cnpm版本</span></span><br><span class="line">cnpm install -g hexo-cli    <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v	<span class="comment">#查看hexo版本</span></span><br><span class="line">mkdir blog	<span class="comment">#创建blog目录</span></span><br><span class="line"><span class="built_in">cd</span> blog	 <span class="comment">#进入blog目录</span></span><br><span class="line">sudo hexo init 	<span class="comment">#生成博客 初始化博客</span></span><br><span class="line">hexo s	<span class="comment">#启动本地博客服务</span></span><br><span class="line">http://localhost:4000/	<span class="comment">#本地访问地址</span></span><br><span class="line">hexo n <span class="string">&quot;我的第一篇文章&quot;</span> <span class="comment">#创建新的文章 </span></span><br><span class="line"><span class="comment">#返回blog目录</span></span><br><span class="line">hexo clean <span class="comment">#清理</span></span><br><span class="line">hexo g <span class="comment">#生成</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Github创建一个新的仓库 YourGithubName.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装git部署插件</span></span><br><span class="line">cnpm install --save hexo-deployer-git</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置_config.yml</span></span><br><span class="line">hexo d	<span class="comment">#部署到Github仓库里</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#主题的设置</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next  <span class="comment">#下载yilia主题到本地</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#修改hexo根目录下的 _config.yml 文件 ： theme: yilia</span></span><br><span class="line"></span><br><span class="line">hexo clean	<span class="comment">#清理一下</span></span><br><span class="line">hexo g	<span class="comment">#生成</span></span><br><span class="line">hexo d	<span class="comment">#部署到远程Github仓库</span></span><br><span class="line">https://YourGithubName.github.io/  <span class="comment">#查看博客</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="日常提交blog"><a href="#日常提交blog" class="headerlink" title="日常提交blog"></a>日常提交blog</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在_posts中提交md</span></span><br><span class="line">hexo clean	<span class="comment">#清理一下</span></span><br><span class="line">hexo g	<span class="comment">#生成</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 hexo d 之前敲 </span></span><br><span class="line">git config --global user.email <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git config --global user.name <span class="string">&quot;xxx&quot;</span></span><br><span class="line"></span><br><span class="line">hexo d	<span class="comment">#部署到远程Github仓库</span></span><br><span class="line">https://YourGithubName.github.io/  <span class="comment">#查看博客</span></span><br></pre></td></tr></table></figure>
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/06/github+hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/" rel="prev" title="github+hexo搭建个人主页">
+      <i class="fa fa-chevron-left"></i> github+hexo搭建个人主页
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/06/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/06/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-01-06 14:07:26" itemprop="dateCreated datePublished" datetime="2021-01-06T14:07:26+08:00">2021-01-06</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -421,6 +337,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#P2-CUDA%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A801-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">P2 CUDA编程入门01-GPU硬件架构综述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#bank%E7%9A%84%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81"><span class="nav-number">1.1.</span> <span class="nav-text">bank的访问冲突</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%84%E7%BA%A6%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%89%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">规约的一个有效的算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p3-CUDA%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">p3 CUDA编程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">CUDA程序执行流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Block%E5%92%8Cgrid%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.2.</span> <span class="nav-text">Block和grid的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">CUDA程序层次结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA-kernel%E5%87%BD%E6%95%B0%E7%9A%84grid-block%E8%B0%83%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-number">2.4.</span> <span class="nav-text">CUDA kernel函数的grid, block调用情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.5.</span> <span class="nav-text">CUDA内置变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P4%E5%90%91%E9%87%8F%E5%8A%A0%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">P4向量加法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P5Grid-Block-Warp-Thread"><span class="nav-number">4.</span> <span class="nav-text">P5Grid-Block-Warp-Thread</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84-1"><span class="nav-number">4.1.</span> <span class="nav-text">CUDA程序层次结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P6GPU%E5%86%85%E5%AD%98%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">P6GPU内存介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P7%E5%86%85%E5%AD%98%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">P7内存如何管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU%E5%86%85%E5%AD%98"><span class="nav-number">6.1.</span> <span class="nav-text">CPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%86%85%E5%AD%98"><span class="nav-number">6.2.</span> <span class="nav-text">GPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.3.</span> <span class="nav-text">GPU全局内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80-unified-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.4.</span> <span class="nav-text">统一(unified)内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="nav-number">6.5.</span> <span class="nav-text">共享内存</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8C%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">7.</span> <span class="nav-text">P8内存管理，代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P9CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%8E%E7%A1%AC%E4%BB%B6%E6%98%A0%E5%B0%84"><span class="nav-number">8.</span> <span class="nav-text">P9CUDA程序执行与硬件映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P10%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">P10什么是规约算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P11%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">P11并行规约算法-二叉树算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P12%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9Bwarp-divergence"><span class="nav-number">11.</span> <span class="nav-text">P12并行规约算法-改进warp divergence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P13%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%8C%E6%B6%88%E9%99%A4%E5%86%B2%E7%AA%81"><span class="nav-number">12.</span> <span class="nav-text">P13并行规约算法-改进共享内存访问，消除冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P14%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE"><span class="nav-number">13.</span> <span class="nav-text">P14并行规约算法-改进全局内存访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P17%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%88%90%E5%8A%9F%E4%BC%98%E5%8C%96%E7%9A%84%E5%85%B3%E9%94%AE"><span class="nav-number">14.</span> <span class="nav-text">P17并行规约算法-成功优化的关键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%B8%89%E9%98%B6%E6%AE%B5%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">15.</span> <span class="nav-text">P18完整并行规约算法-三阶段算法与完整代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8-%E5%86%85%E7%A7%AF"><span class="nav-number">16.</span> <span class="nav-text">P18完整并行规约算法应用-内积</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
