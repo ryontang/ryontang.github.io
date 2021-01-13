@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="@[TOC] P2 CUDA编程入门01-GPU硬件架构综述 bank的访问冲突冲突的情况 规约的一个有效的算法 p3 CUDA编程模型 CUDA程序执行流程##### Block和grid的关系 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况  注意用__global__定义的kernel是异步的：调用这个函数cpu就走了，不管GPU是否算完，不会等待GPU完成">
+  <meta name="description" content="P2 CUDA编程入门01-GPU硬件架构综述 bank的访问冲突 规约的一个有效的算法   p3 CUDA编程模型 CUDA程序执行流程 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况 CUDA内置变量   P4向量加法 P5Grid-Block-Warp-Thread CUDA程序层次结构   P6GPU内存介绍 P7内存如何管理 CPU内存 GPU内存 G">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="CUDA编程入门">
 <meta property="og:url" content="http://example.com/2021/01/13/cuda%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="@[TOC] P2 CUDA编程入门01-GPU硬件架构综述 bank的访问冲突冲突的情况 规约的一个有效的算法 p3 CUDA编程模型 CUDA程序执行流程##### Block和grid的关系 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况  注意用__global__定义的kernel是异步的：调用这个函数cpu就走了，不管GPU是否算完，不会等待GPU完成">
+<meta property="og:description" content="P2 CUDA编程入门01-GPU硬件架构综述 bank的访问冲突 规约的一个有效的算法   p3 CUDA编程模型 CUDA程序执行流程 CUDA程序层次结构 CUDA kernel函数的grid, block调用情况 CUDA内置变量   P4向量加法 P5Grid-Block-Warp-Thread CUDA程序层次结构   P6GPU内存介绍 P7内存如何管理 CPU内存 GPU内存 G">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113162410713.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113162438214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
@@ -54,9 +54,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2021011316440393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113164504489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113164526706.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
-<meta property="article:published_time" content="2021-01-13T08:49:36.273Z">
-<meta property="article:modified_time" content="2021-01-13T08:50:02.629Z">
+<meta property="article:published_time" content="2021-01-13T07:13:14.000Z">
+<meta property="article:modified_time" content="2021-01-13T09:02:42.417Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210113162410713.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70">
 
@@ -73,7 +74,7 @@
   };
 </script>
 
-  <title> | Hexo</title>
+  <title>CUDA编程入门 | Hexo</title>
   
 
 
@@ -191,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          CUDA编程入门
         </h1>
 
         <div class="post-meta">
@@ -202,7 +203,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-01-13 16:49:36 / Modified: 16:50:02" itemprop="dateCreated datePublished" datetime="2021-01-13T16:49:36+08:00">2021-01-13</time>
+              <time title="Created: 2021-01-13 15:13:14 / Modified: 17:02:42" itemprop="dateCreated datePublished" datetime="2021-01-13T15:13:14+08:00">2021-01-13</time>
             </span>
 
           
@@ -216,12 +217,49 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>@[TOC]</p>
+        <ul>
+<li><a href="#p2-cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A801-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E7%BB%BC%E8%BF%B0">P2 CUDA编程入门01-GPU硬件架构综述</a><ul>
+<li><a href="#bank%E7%9A%84%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81">bank的访问冲突</a></li>
+<li><a href="#%E8%A7%84%E7%BA%A6%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%89%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95">规约的一个有效的算法</a></li>
+</ul>
+</li>
+<li><a href="#p3-cuda%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B">p3 CUDA编程模型</a><ul>
+<li><a href="#cuda%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B">CUDA程序执行流程</a></li>
+<li><a href="#cuda%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84">CUDA程序层次结构</a></li>
+<li><a href="#cuda-kernel%E5%87%BD%E6%95%B0%E7%9A%84grid-block%E8%B0%83%E7%94%A8%E6%83%85%E5%86%B5">CUDA kernel函数的grid, block调用情况</a></li>
+<li><a href="#cuda%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F">CUDA内置变量</a></li>
+</ul>
+</li>
+<li><a href="#p4%E5%90%91%E9%87%8F%E5%8A%A0%E6%B3%95">P4向量加法</a></li>
+<li><a href="#p5grid-block-warp-thread">P5Grid-Block-Warp-Thread</a><ul>
+<li><a href="#cuda%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84-1">CUDA程序层次结构</a></li>
+</ul>
+</li>
+<li><a href="#p6gpu%E5%86%85%E5%AD%98%E4%BB%8B%E7%BB%8D">P6GPU内存介绍</a></li>
+<li><a href="#p7%E5%86%85%E5%AD%98%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86">P7内存如何管理</a><ul>
+<li><a href="#cpu%E5%86%85%E5%AD%98">CPU内存</a></li>
+<li><a href="#gpu%E5%86%85%E5%AD%98">GPU内存</a></li>
+<li><a href="#gpu%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE">GPU全局内存分配释放</a></li>
+<li><a href="#%E7%BB%9F%E4%B8%80unified%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE">统一(unified)内存分配释放</a></li>
+<li><a href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98">共享内存</a></li>
+</ul>
+</li>
+<li><a href="#p8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B">P8内存管理，代码示例</a></li>
+<li><a href="#p9cuda%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%8E%E7%A1%AC%E4%BB%B6%E6%98%A0%E5%B0%84">P9CUDA程序执行与硬件映射</a></li>
+<li><a href="#p10%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95">P10什么是规约算法</a></li>
+<li><a href="#p11%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95">P11并行规约算法-二叉树算法</a></li>
+<li><a href="#p12%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9Bwarp-divergence">P12并行规约算法-改进warp divergence</a></li>
+<li><a href="#p13%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E6%B6%88%E9%99%A4%E5%86%B2%E7%AA%81">P13并行规约算法-改进共享内存访问，消除冲突</a></li>
+<li><a href="#p14%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE">P14并行规约算法-改进全局内存访问</a></li>
+<li><a href="#p17%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%88%90%E5%8A%9F%E4%BC%98%E5%8C%96%E7%9A%84%E5%85%B3%E9%94%AE">P17并行规约算法-成功优化的关键</a></li>
+<li><a href="#p18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%B8%89%E9%98%B6%E6%AE%B5%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81">P18完整并行规约算法-三阶段算法与完整代码</a></li>
+<li><a href="#p18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8-%E5%86%85%E7%A7%AF">P18完整并行规约算法应用-内积</a></li>
+</ul>
 <h4 id="P2-CUDA编程入门01-GPU硬件架构综述"><a href="#P2-CUDA编程入门01-GPU硬件架构综述" class="headerlink" title="P2 CUDA编程入门01-GPU硬件架构综述"></a>P2 CUDA编程入门01-GPU硬件架构综述</h4><p><img src="https://img-blog.csdnimg.cn/20210113162410713.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="bank的访问冲突"><a href="#bank的访问冲突" class="headerlink" title="bank的访问冲突"></a>bank的访问冲突</h5><p><img src="https://img-blog.csdnimg.cn/20210113162438214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20210113162523586.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>冲突的情况</strong><br><img src="https://img-blog.csdnimg.cn/20210113162609795.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="规约的一个有效的算法"><a href="#规约的一个有效的算法" class="headerlink" title="规约的一个有效的算法"></a>规约的一个有效的算法</h5><p><img src="https://img-blog.csdnimg.cn/20210113162625191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h4 id="p3-CUDA编程模型"><a href="#p3-CUDA编程模型" class="headerlink" title="p3 CUDA编程模型"></a>p3 CUDA编程模型</h4><p><img src="https://img-blog.csdnimg.cn/20210113162639724.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h5 id="CUDA程序执行流程-Block和grid的关系"><a href="#CUDA程序执行流程-Block和grid的关系" class="headerlink" title="CUDA程序执行流程##### Block和grid的关系"></a>CUDA程序执行流程<img src="https://img-blog.csdnimg.cn/20210113162658487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">##### Block和grid的关系</h5><p><img src="https://img-blog.csdnimg.cn/20210113162750912.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="CUDA程序执行流程"><a href="#CUDA程序执行流程" class="headerlink" title="CUDA程序执行流程"></a>CUDA程序执行流程</h5><p><img src="https://img-blog.csdnimg.cn/20210113162658487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">##### Block和grid的关系<br><img src="https://img-blog.csdnimg.cn/20210113162750912.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="CUDA程序层次结构"><a href="#CUDA程序层次结构" class="headerlink" title="CUDA程序层次结构"></a>CUDA程序层次结构</h5><p><img src="https://img-blog.csdnimg.cn/20210113162814966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="CUDA-kernel函数的grid-block调用情况"><a href="#CUDA-kernel函数的grid-block调用情况" class="headerlink" title="CUDA kernel函数的grid, block调用情况"></a>CUDA kernel函数的grid, block调用情况</h5><p><img src="https://img-blog.csdnimg.cn/20210113162910829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <blockquote>
@@ -237,7 +275,8 @@
 <h5 id="GPU内存"><a href="#GPU内存" class="headerlink" title="GPU内存"></a>GPU内存</h5><p><img src="https://img-blog.csdnimg.cn/20210113164007924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="GPU全局内存分配释放"><a href="#GPU全局内存分配释放" class="headerlink" title="GPU全局内存分配释放"></a>GPU全局内存分配释放</h5><p><img src="https://img-blog.csdnimg.cn/20210113164047941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="统一-unified-内存分配释放"><a href="#统一-unified-内存分配释放" class="headerlink" title="统一(unified)内存分配释放"></a>统一(unified)内存分配释放</h5><p>避免GPU和CPU数据传输，因为都可以访问<br><img src="https://img-blog.csdnimg.cn/20210113164107277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>同步拷贝： src全部拷贝给dst，这个函数才会终止执行下一个函数<br><img src="https://img-blog.csdnimg.cn/202101131641248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>异步拷贝： 只要启动这个函数就不管了(留着GPU与CPU自己完成)，就执行这个函数后面的语句，异步拷贝有一个缺点：就是你不知道是否拷贝完成，你就使用他有可能使用的是以前的旧数据<br><img src="https://img-blog.csdnimg.cn/2021011316414811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h5 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存<img src="https://img-blog.csdnimg.cn/20210113164326185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></h5><blockquote>
+<h5 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h5><p><img src="https://img-blog.csdnimg.cn/20210113164326185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
 <p>常用的使用共享内存的两种方式<br><img src="https://img-blog.csdnimg.cn/2021011316440393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3J5b250YW5n,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 </blockquote>
 <h4 id="P8内存管理，代码示例"><a href="#P8内存管理，代码示例" class="headerlink" title="P8内存管理，代码示例"></a>P8内存管理，代码示例</h4><p>申请内存(cudaMalloc/<em>GPU</em>/, malloc或者cudaMallocHost/<em>CPU</em>/)-&gt;内存拷贝(cudaMemcpy)-&gt;调用核函数 &lt;&lt;&lt;blockIdx,threadIdx&gt;&gt;&gt; -&gt;内存拷贝-&gt;释放内存</p>
@@ -257,6 +296,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
 
         
 
@@ -326,7 +368,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#P2-CUDA%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A801-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">P2 CUDA编程入门01-GPU硬件架构综述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#bank%E7%9A%84%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81"><span class="nav-number">1.1.</span> <span class="nav-text">bank的访问冲突</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%84%E7%BA%A6%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%89%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">规约的一个有效的算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p3-CUDA%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">p3 CUDA编程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B-Block%E5%92%8Cgrid%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.1.</span> <span class="nav-text">CUDA程序执行流程##### Block和grid的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">CUDA程序层次结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA-kernel%E5%87%BD%E6%95%B0%E7%9A%84grid-block%E8%B0%83%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-number">2.3.</span> <span class="nav-text">CUDA kernel函数的grid, block调用情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.4.</span> <span class="nav-text">CUDA内置变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P4%E5%90%91%E9%87%8F%E5%8A%A0%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">P4向量加法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P5Grid-Block-Warp-Thread"><span class="nav-number">4.</span> <span class="nav-text">P5Grid-Block-Warp-Thread</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84-1"><span class="nav-number">4.1.</span> <span class="nav-text">CUDA程序层次结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P6GPU%E5%86%85%E5%AD%98%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">P6GPU内存介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P7%E5%86%85%E5%AD%98%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">P7内存如何管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU%E5%86%85%E5%AD%98"><span class="nav-number">6.1.</span> <span class="nav-text">CPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%86%85%E5%AD%98"><span class="nav-number">6.2.</span> <span class="nav-text">GPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.3.</span> <span class="nav-text">GPU全局内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80-unified-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.4.</span> <span class="nav-text">统一(unified)内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="nav-number">6.5.</span> <span class="nav-text">共享内存</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8C%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">7.</span> <span class="nav-text">P8内存管理，代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P9CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%8E%E7%A1%AC%E4%BB%B6%E6%98%A0%E5%B0%84"><span class="nav-number">8.</span> <span class="nav-text">P9CUDA程序执行与硬件映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P10%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">P10什么是规约算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P11%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">P11并行规约算法-二叉树算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P12%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9Bwarp-divergence"><span class="nav-number">11.</span> <span class="nav-text">P12并行规约算法-改进warp divergence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P13%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%8C%E6%B6%88%E9%99%A4%E5%86%B2%E7%AA%81"><span class="nav-number">12.</span> <span class="nav-text">P13并行规约算法-改进共享内存访问，消除冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P14%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE"><span class="nav-number">13.</span> <span class="nav-text">P14并行规约算法-改进全局内存访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P17%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%88%90%E5%8A%9F%E4%BC%98%E5%8C%96%E7%9A%84%E5%85%B3%E9%94%AE"><span class="nav-number">14.</span> <span class="nav-text">P17并行规约算法-成功优化的关键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%B8%89%E9%98%B6%E6%AE%B5%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">15.</span> <span class="nav-text">P18完整并行规约算法-三阶段算法与完整代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8-%E5%86%85%E7%A7%AF"><span class="nav-number">16.</span> <span class="nav-text">P18完整并行规约算法应用-内积</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#P2-CUDA%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A801-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">P2 CUDA编程入门01-GPU硬件架构综述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#bank%E7%9A%84%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81"><span class="nav-number">1.1.</span> <span class="nav-text">bank的访问冲突</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%84%E7%BA%A6%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%89%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">规约的一个有效的算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p3-CUDA%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">p3 CUDA编程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">CUDA程序执行流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">CUDA程序层次结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA-kernel%E5%87%BD%E6%95%B0%E7%9A%84grid-block%E8%B0%83%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-number">2.3.</span> <span class="nav-text">CUDA kernel函数的grid, block调用情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.4.</span> <span class="nav-text">CUDA内置变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P4%E5%90%91%E9%87%8F%E5%8A%A0%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">P4向量加法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P5Grid-Block-Warp-Thread"><span class="nav-number">4.</span> <span class="nav-text">P5Grid-Block-Warp-Thread</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CUDA%E7%A8%8B%E5%BA%8F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84-1"><span class="nav-number">4.1.</span> <span class="nav-text">CUDA程序层次结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P6GPU%E5%86%85%E5%AD%98%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">P6GPU内存介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P7%E5%86%85%E5%AD%98%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">P7内存如何管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU%E5%86%85%E5%AD%98"><span class="nav-number">6.1.</span> <span class="nav-text">CPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%86%85%E5%AD%98"><span class="nav-number">6.2.</span> <span class="nav-text">GPU内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.3.</span> <span class="nav-text">GPU全局内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80-unified-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E9%87%8A%E6%94%BE"><span class="nav-number">6.4.</span> <span class="nav-text">统一(unified)内存分配释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="nav-number">6.5.</span> <span class="nav-text">共享内存</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8C%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">7.</span> <span class="nav-text">P8内存管理，代码示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P9CUDA%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%8E%E7%A1%AC%E4%BB%B6%E6%98%A0%E5%B0%84"><span class="nav-number">8.</span> <span class="nav-text">P9CUDA程序执行与硬件映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P10%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">P10什么是规约算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P11%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">P11并行规约算法-二叉树算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P12%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9Bwarp-divergence"><span class="nav-number">11.</span> <span class="nav-text">P12并行规约算法-改进warp divergence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P13%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%8C%E6%B6%88%E9%99%A4%E5%86%B2%E7%AA%81"><span class="nav-number">12.</span> <span class="nav-text">P13并行规约算法-改进共享内存访问，消除冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P14%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%94%B9%E8%BF%9B%E5%85%A8%E5%B1%80%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE"><span class="nav-number">13.</span> <span class="nav-text">P14并行规约算法-改进全局内存访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P17%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E6%88%90%E5%8A%9F%E4%BC%98%E5%8C%96%E7%9A%84%E5%85%B3%E9%94%AE"><span class="nav-number">14.</span> <span class="nav-text">P17并行规约算法-成功优化的关键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95-%E4%B8%89%E9%98%B6%E6%AE%B5%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">15.</span> <span class="nav-text">P18完整并行规约算法-三阶段算法与完整代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P18%E5%AE%8C%E6%95%B4%E5%B9%B6%E8%A1%8C%E8%A7%84%E7%BA%A6%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8-%E5%86%85%E7%A7%AF"><span class="nav-number">16.</span> <span class="nav-text">P18完整并行规约算法应用-内积</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -340,7 +382,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
