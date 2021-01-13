@@ -20,19 +20,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="设置工程文件包含子工程  实质添加自工程中的cmakelist.txt  实例工程 设置包含目录&#x2F;引用外部的头文件 include_directories()  设置库目录添加内部静态库和外部静态库的方法1234567891011121314内部某个子工程subproject生成了静态库为: project(base64)可直接：target_link_libraries(  base64)若是外">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2021/01/06/hello-world/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="设置工程文件包含子工程  实质添加自工程中的cmakelist.txt  实例工程 设置包含目录&#x2F;引用外部的头文件 include_directories()  设置库目录添加内部静态库和外部静态库的方法1234567891011121314内部某个子工程subproject生成了静态库为: project(base64)可直接：target_link_libraries(  base64)若是外">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-01-06T06:07:26.356Z">
-<meta property="article:modified_time" content="2021-01-06T06:07:26.356Z">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-25-49.png">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-26-53.png">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-27-27.png">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-01-33.png">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-19-35.png">
+<meta property="og:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-20-29.png">
+<meta property="article:published_time" content="2021-01-08T13:01:04.927Z">
+<meta property="article:modified_time" content="2021-01-08T13:31:53.364Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/2021-01-08-21-25-49.png">
 
-<link rel="canonical" href="http://example.com/2021/01/06/hello-world/">
+<link rel="canonical" href="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
 
 <script id="page-configurations">
@@ -45,7 +52,7 @@
   };
 </script>
 
-  <title>Hello World | Hexo</title>
+  <title> | Hexo</title>
   
 
 
@@ -150,7 +157,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/06/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -163,7 +170,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          
         </h1>
 
         <div class="post-meta">
@@ -172,8 +179,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2021-01-06 14:07:26" itemprop="dateCreated datePublished" datetime="2021-01-06T14:07:26+08:00">2021-01-06</time>
+              <time title="Created: 2021-01-08 21:01:04 / Modified: 21:31:53" itemprop="dateCreated datePublished" datetime="2021-01-08T21:01:04+08:00">2021-01-08</time>
             </span>
 
           
@@ -187,15 +195,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h1 id="设置工程文件"><a href="#设置工程文件" class="headerlink" title="设置工程文件"></a>设置工程文件</h1><h2 id="包含子工程"><a href="#包含子工程" class="headerlink" title="包含子工程"></a>包含子工程</h2><p><img src="2021-01-08-21-25-49.png"></p>
+<blockquote>
+<p>实质添加自工程中的cmakelist.txt<br><img src="2021-01-08-21-26-53.png"></p>
+</blockquote>
+<p>实例工程<br><img src="2021-01-08-21-27-27.png"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="设置包含目录-引用外部的头文件"><a href="#设置包含目录-引用外部的头文件" class="headerlink" title="设置包含目录/引用外部的头文件"></a>设置包含目录/引用外部的头文件</h1><ul>
+<li>include_directories()<br><img src="2021-01-08-21-01-33.png"></li>
+</ul>
+<h1 id="设置库目录"><a href="#设置库目录" class="headerlink" title="设置库目录"></a>设置库目录</h1><h2 id="添加内部静态库和外部静态库的方法"><a href="#添加内部静态库和外部静态库的方法" class="headerlink" title="添加内部静态库和外部静态库的方法"></a>添加内部静态库和外部静态库的方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">内部某个子工程subproject生成了静态库为: project(base64)</span><br><span class="line">可直接：</span><br><span class="line">target_link_libraries(</span><br><span class="line">  base64</span><br><span class="line">)</span><br><span class="line">若是外部的静态库</span><br><span class="line">1. 先查找目录里查找: libbase64.a</span><br><span class="line">link_directories(</span><br><span class="line">  <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/build/samples/base64</span><br><span class="line">)</span><br><span class="line">2. 再target_link_libraries(</span><br><span class="line">  <span class="string">&quot;base64&quot;</span> <span class="comment"># 实则查找libbase64.a</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="如何创建一个静态库"><a href="#如何创建一个静态库" class="headerlink" title="如何创建一个静态库"></a>如何创建一个静态库</h2><p>创建静态库和创建可执行程序差不太多<br>具体见图片<br><img src="2021-01-08-21-19-35.png"></p>
+<h2 id="如何创建一个动态库"><a href="#如何创建一个动态库" class="headerlink" title="如何创建一个动态库"></a>如何创建一个动态库</h2><p><img src="2021-01-08-21-20-29.png"></p>
+<h2 id="连接编译器自带的库"><a href="#连接编译器自带的库" class="headerlink" title="连接编译器自带的库"></a>连接编译器自带的库</h2><p>不需要<br>link_directories(</p>
+<p>)<br>直接<br>target_link_libraries(<br>  某个自带的库<br>)</p>
+<p><strong>引用</strong><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1A7411f7jT?p=2">https://www.bilibili.com/video/BV1A7411f7jT?p=2</a></p>
 
     </div>
 
@@ -210,10 +223,13 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2021/01/06/github+hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/" rel="next" title="github+hexo搭建个人主页">
-      github+hexo搭建个人主页 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/08/TensorRT%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/11/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -273,7 +289,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%B7%A5%E7%A8%8B%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">设置工程文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E5%AD%90%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">包含子工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8C%85%E5%90%AB%E7%9B%AE%E5%BD%95-%E5%BC%95%E7%94%A8%E5%A4%96%E9%83%A8%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">设置包含目录&#x2F;引用外部的头文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%BA%93%E7%9B%AE%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">设置库目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%86%85%E9%83%A8%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%A4%96%E9%83%A8%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">添加内部静态库和外部静态库的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text">如何创建一个静态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8A%A8%E6%80%81%E5%BA%93"><span class="nav-number">3.3.</span> <span class="nav-text">如何创建一个动态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E7%BC%96%E8%AF%91%E5%99%A8%E8%87%AA%E5%B8%A6%E7%9A%84%E5%BA%93"><span class="nav-number">3.4.</span> <span class="nav-text">连接编译器自带的库</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

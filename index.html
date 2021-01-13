@@ -145,6 +145,197 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-11 19:03:34 / Modified: 19:19:08" itemprop="dateCreated datePublished" datetime="2021-01-11T19:03:34+08:00">2021-01-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="P2内存分配的每一层面"><a href="#P2内存分配的每一层面" class="headerlink" title="P2内存分配的每一层面"></a>P2内存分配的每一层面</h1><p><img src="2021-01-11-19-17-22.png"></p>
+<h2 id="手上可以用的基础工具"><a href="#手上可以用的基础工具" class="headerlink" title="手上可以用的基础工具"></a>手上可以用的基础工具</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/08/cmake%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-08 21:01:04 / Modified: 21:31:53" itemprop="dateCreated datePublished" datetime="2021-01-08T21:01:04+08:00">2021-01-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="设置工程文件"><a href="#设置工程文件" class="headerlink" title="设置工程文件"></a>设置工程文件</h1><h2 id="包含子工程"><a href="#包含子工程" class="headerlink" title="包含子工程"></a>包含子工程</h2><p><img src="2021-01-08-21-25-49.png"></p>
+<blockquote>
+<p>实质添加自工程中的cmakelist.txt<br><img src="2021-01-08-21-26-53.png"></p>
+</blockquote>
+<p>实例工程<br><img src="2021-01-08-21-27-27.png"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="设置包含目录-引用外部的头文件"><a href="#设置包含目录-引用外部的头文件" class="headerlink" title="设置包含目录/引用外部的头文件"></a>设置包含目录/引用外部的头文件</h1><ul>
+<li>include_directories()<br><img src="2021-01-08-21-01-33.png"></li>
+</ul>
+<h1 id="设置库目录"><a href="#设置库目录" class="headerlink" title="设置库目录"></a>设置库目录</h1><h2 id="添加内部静态库和外部静态库的方法"><a href="#添加内部静态库和外部静态库的方法" class="headerlink" title="添加内部静态库和外部静态库的方法"></a>添加内部静态库和外部静态库的方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">内部某个子工程subproject生成了静态库为: project(base64)</span><br><span class="line">可直接：</span><br><span class="line">target_link_libraries(</span><br><span class="line">  base64</span><br><span class="line">)</span><br><span class="line">若是外部的静态库</span><br><span class="line">1. 先查找目录里查找: libbase64.a</span><br><span class="line">link_directories(</span><br><span class="line">  <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/build/samples/base64</span><br><span class="line">)</span><br><span class="line">2. 再target_link_libraries(</span><br><span class="line">  <span class="string">&quot;base64&quot;</span> <span class="comment"># 实则查找libbase64.a</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="如何创建一个静态库"><a href="#如何创建一个静态库" class="headerlink" title="如何创建一个静态库"></a>如何创建一个静态库</h2><p>创建静态库和创建可执行程序差不太多<br>具体见图片<br><img src="2021-01-08-21-19-35.png"></p>
+<h2 id="如何创建一个动态库"><a href="#如何创建一个动态库" class="headerlink" title="如何创建一个动态库"></a>如何创建一个动态库</h2><p><img src="2021-01-08-21-20-29.png"></p>
+<h2 id="连接编译器自带的库"><a href="#连接编译器自带的库" class="headerlink" title="连接编译器自带的库"></a>连接编译器自带的库</h2><p>不需要<br>link_directories(</p>
+<p>)<br>直接<br>target_link_libraries(<br>  某个自带的库<br>)</p>
+<p><strong>引用</strong><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1A7411f7jT?p=2">https://www.bilibili.com/video/BV1A7411f7jT?p=2</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/08/TensorRT%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/08/TensorRT%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-08 19:28:31 / Modified: 20:27:58" itemprop="dateCreated datePublished" datetime="2021-01-08T19:28:31+08:00">2021-01-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="P1what-is-TensorRT"><a href="#P1what-is-TensorRT" class="headerlink" title="P1what is TensorRT"></a>P1what is TensorRT</h1><p><img src="2021-01-08-19-29-08.png"></p>
+<h1 id="P2Working-with-TensorRT-Using-the-Python-API"><a href="#P2Working-with-TensorRT-Using-the-Python-API" class="headerlink" title="P2Working with TensorRT Using the Python API"></a>P2Working with TensorRT Using the Python API</h1><p><img src="2021-01-08-20-27-51.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/07/cuda%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -434,7 +625,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
